@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from environ import Env
+import dj_database_url
 
 env = Env()
 Env.read_env()
@@ -102,6 +103,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -109,6 +111,9 @@ DATABASES = {
     }
 }
 
+POSTGRES_LOCALLY = False     #when want to to run postgres locally set it to true.
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
