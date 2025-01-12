@@ -1,0 +1,16 @@
+{% extends "layouts/a.html" %}
+
+{% block content %}
+
+    {% for post in posts %}
+    {% include "posts/post.html" %}
+    {% endfor %}
+
+    <div hx-get="{% url "home" %}?page={{ page|add:1 }}"
+        hx-trigger="revealed"
+        hx-target="this"
+        hx-swap="outerHTML"
+        style="margin-bottom: 50px;">
+    </div>
+
+{% endblock content %}

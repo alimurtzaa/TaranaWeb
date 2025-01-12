@@ -1,0 +1,14 @@
+<div id="tab-contents" class="w-full flex flex-col items-center">
+    {% if comments.count %}
+    <div class="w-full lg:w-[50rem] mx-auto">
+        {% for comment in comments %}
+        <div>
+        {% include "posts/comment.html" with custom_data="top_comments_page"%}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="mt-10 text-center font-light italic">No comments just yet!</h3>
+    {% endif %}
+
+</div>

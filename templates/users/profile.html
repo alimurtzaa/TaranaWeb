@@ -1,0 +1,108 @@
+{% extends "layouts/d.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div id="profile" class="flex flex-col items-center">
+    
+    <div class="w-full md:w-[36rem] lg:w-[50rem]">
+        <div class="card p-6">
+            <div class="text-center flex flex-col items-center">
+                <img id="avatar" class="w-36 h-36 rounded-full object-cover mb-4" src="{{profile.avatar}}" />
+                <div class="text-center max-w-md">
+                    <h1>{{profile.name}}</h1>
+                    <div class="text-gray-400 mb-2 -mt-3">@{{profile.user.username}}</div>
+                    <div class="flex items-center justify-center mx-auto">
+                        <img class="object-cover h-6 opacity-60" src="https://img.icons8.com/material-outlined/50/000000/marker.png"> 
+                        {% if profile.location %}
+                            {{profile.location}}
+                        {% else %}
+                            Earth
+                        {% endif %}
+                    </div>
+                    <div class="my-4">
+                        {% if profile.bio %}
+                            {{profile.bio}}
+                        {% else %}
+                            Surviving the world
+                        {% endif %}
+                    </div> 
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tabs" class="flex justify-center my-4 gap-2" hx-target="#tab-contents" hx-swap="innerHTML" 
+    _="on htmx:afterOnLoad take .selected for event.target"> 
+        <a hx-get="{% url "userprofile" profile.user.username %}" class="tab selected">Latest</a>
+        <a hx-get="{% url "userprofile" profile.user.username %}?topposts" class="tab">Top Posts</a>  
+        <a hx-get="{% url "userprofile" profile.user.username %}?topcomments" class="tab">Top Comments</a>
+        <a hx-get="{% url "userprofile" profile.user.username %}?likedposts" class="tab">Liked Posts</a>
+    </div>
+
+    <div id="tab-contents" class="w-full flex flex-col items-center">
+    {% if posts.count %}
+    <div class="grid place-items-start w-xl gap-x-8 mx-auto max-w-xl 
+    {% if posts.count <= 1 %}
+    {% elif posts.count == 2 %}lg:grid-cols-2 lg:max-w-5xl
+    {% else %}lg:grid-cols-2 lg:max-w-5xl xl:grid-cols-3 xl:max-w-7xl{% endif %}">
+
+        {% for post in posts %}
+        <article class="card" style="width: -webkit-fill-available">
+            <div class="flex items-center justify-between px-4 h-14">
+                <h3 class=" font-bold w-[50%] truncate">{{ post.title }}</h3>
+        
+                {% if post.author %}
+                <div class="text-sm text-gray-500 flex items-center justify-center gap-1">
+                    <a href="{% url 'userprofile' post.author.username %}" class="hover:underline">{{post.author.profile.name}}</a>
+                    <img  class="h-8 w-8 rounded-full bg-teal-200 object-cover" src="{{post.author.profile.avatar}}" />
+                </div>
+                {% else %}
+                <div class="text-sm text-gray-500 flex items-center justify-center gap-1">
+                    <a class=" select-none">No Author</a>
+                    <img  class="h-8 w-8 rounded-full bg-teal-200 object-cover" src="{% static 'images/avatar_default.svg' %}" />
+                </div>
+                {% endif %}
+            </div>
+            <div class="p-4 pb-2">
+                <a href="{% url "post" post.id %}">
+                    <p class="text-2xl mb-4 px-8 font1">{{ post.body }}</p>
+                </a>
+                <div class="flex items-center justify-between text-sm px-2">
+                    {% if post.comments.count %}
+                    <div class="flex items-center gap-1">
+                    <a href="{%url 'post' post.id%}" class="font-sm hover:underline">Comments </a>
+                    <span id="commentscount-{{post.id}}" class="text-gray-500 ml-1">{{post.comments.count}}</span>
+                    </div>
+                    {% else %}
+                    <div class="flex items-center gap-1">
+                        {% if user.is_authenticated %}
+                        <a href="{%url 'post' post.id%}" class="font-sm hover:underline">Add Comment </a>
+                        {% endif %}
+                    </div>            
+                    {% endif %}
+                    <div class="flex items-center gap-4 [&>a:hover]:underline">
+        
+                        {% include "snippets/likes.html" %}     
+                    {% if user.is_authenticated and user == post.author %}
+                    <a href="{% url 'edit-post' post.id %}">Edit</a>
+                    <a href="{% url 'delete-post' post.id %}">Delete</a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        </article>
+        {% endfor %}
+    
+    </div>
+    {% else %}
+    <h3 class="mt-10 text-center font-light italic">No posts just yet!</h3>
+    {% endif %}
+
+</div>
+</div>
+
+{% endblock content %}

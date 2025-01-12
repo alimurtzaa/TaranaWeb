@@ -1,0 +1,16 @@
+{% extends "layouts/c.html" %}
+
+{% block content %}
+            <div id="new-message">
+              <h3 class=" mb-4">Search</h3>
+              <div class="flex gap-2 items-center">
+              <input class="p-3 w-screen lg:full" placeholder="Search user ..." type="text" name="search_user" 
+                  hx-get="{% url "list-search-users" %}" 
+                  hx-trigger="keyup changed" 
+                  hx-target="#search-results" 
+                  hx-swap="innerHTML">
+              </div>
+                <div id="search-results" class="block h-60 overflow-y-auto">
+                </div>
+            </div>
+  {% endblock content %}

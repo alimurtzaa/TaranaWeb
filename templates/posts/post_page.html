@@ -1,0 +1,46 @@
+{% extends "layouts/b.html" %}
+{% load static %}
+
+{% block content %}
+    
+{% include "posts/post.html" %}
+
+{% if user.is_authenticated %}
+<div class="card !pb-0 -mt-3">
+    <form class="flex items-center p-4 w-full justify-between" autocomplete="off"
+    hx-post="{% url "comment-sent" post.id %}"
+    hx-target="#tab-contents"
+    hx-swap="afterbegin"
+    _="on htmx:afterRequest reset() me
+    on htmx:afterRequest remove #no-comments-message"
+    >
+        {% csrf_token %}
+        {{commentform.label_tag}}
+        {{commentform.body}}
+        <button class="block ml-2 " type="submit">Submit</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="mb-20">
+    <div id="tabs" class="ml-4 flex gap-1 mb-4 {% if not post.comments.count %}hidden{% endif %}" 
+    hx-target="#tab-contents"
+    hx-swap="innerHTML"
+    _="on htmx:afterOnLoad take .selected for event.target">
+        <a hx-get="{% url "post" post.id %}" class="tab selected">Newest First</a> 
+        <a hx-get="{% url "post" post.id %}?top" class="tab">Top Comments</a>
+    </div>
+
+    
+    <div id="tab-contents">
+        <div id="no-comments-message" class="{% if post.comments.count %}hidden{% endif %}">
+            <h3 class="italic font-light text-center">Be the first to comment.</h3>
+        </div>
+        {% for comment in post.comments.all %}
+        {% include "posts/comment.html" %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

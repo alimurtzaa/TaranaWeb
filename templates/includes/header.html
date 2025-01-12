@@ -1,0 +1,42 @@
+<header class="md:flex items-center justify-between [&>*]:px-8 bg-gray-800 text-white h-20 sticky top-0 z-50">
+    <div class="flex items-center justify-between h-20">
+        <logo>
+            <a href="{% url 'home' %}" class="flex items-center justify-around gap-2">
+                <img class="h-8 -mt-1" src="https://img.icons8.com/material-rounded/48/ffffff/bluesky.png" alt="bluesky"/>
+                <span>Tarana</span>
+            </a>
+        </logo>
+        <mobileicon id="hamburger" class="md:hidden">
+            <a class="h-12 w-12 flex items-center justify-center cursor-pointer rounded-lg hover:bg-gray-700">
+                <img id="menuIcon" class="w-6 h-6 select-none" src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v3.png" alt="menu--v3"/>
+                <img id="cutIcon" class="w-8 h-8 hidden select-none" src="https://img.icons8.com/ios/50/ffffff/multiply.png" alt="multiply"/>
+            </a>
+        </mobileicon>
+    </div>
+    <nav id="nav" class="hidden md:block bg-gray-800 w-screen h-screen md:w-auto md:h-auto -mt-20 md:-mt-0 absolute md:relative z-[-1]">
+        <ul class="navitems flex items-center flex-col md:flex-row gap-8 md:gap-0 justify-center h-full -translate-y-10 md:translate-y-0">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'search' %}">Search</a></li>
+            <li><a href="{% url 'create-post' %}">Create Tar</a></li>
+            <li class="relative">
+                <a id="dropDownbtn" class="cursor-pointer select-none">
+                <img  class="h-8 w-8 rounded-full bg-teal-200 object-cover" src="{{user.profile.avatar}}" alt="bart-simpson"/>
+                {{user.profile.name}}
+                <img id="expandArrow1" class="w-4" src="https://img.icons8.com/small/64/777777/expand-arrow.png" alt="expand-arrow"/>
+                </a>
+                <div class="absolute right-0 bg-white text-black rounded-lg w-40 p-2 z-20 hidden" id="myDropdown">
+                    <ul class="hoverlist [&>li>a]:justify-end">
+                        <li><a href="{% url 'profile' %}">My Profile</a></li>
+                        <li><a href="{% url 'profile-edit' %}">Edit Profile</a></li>
+                        <li><a href="{% url 'account_logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
+            </li>
+            {% else %}
+            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+            <li><a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

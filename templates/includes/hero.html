@@ -1,0 +1,11 @@
+<!-- <hero class="grid text-white bg-gray-700 text-center  bg-cover bg-[url('https://images.pexels.com/photos/3573351/pexels-photo-3573351.png')]"> -->
+<hero class="grid text-white bg-gray-700 text-center h-[100vh] bg-cover bg-[url('https://images.pexels.com/photos/808711/pexels-photo-808711.jpeg')]">
+        <div class="col-start-1 row-start-1 bg-gray-800/30 w-full h-full"></div>
+        <div class="col-start-1 row-start-1 py-40 px-10 mt-10">
+            <h1 class="titleBlink text-6xl">Welcome to Tarana!</h1>
+            <p class="text-lg font-bold mb-5 ">Share your <span class=" font1 text-4xl text-gray-500">tar</span></p>
+            {% if not user.is_authenticated %}
+            <a class="button" href="{% url 'account_signup' %}">Get Started</a>
+            {% endif %}
+    </div>
+</hero>
