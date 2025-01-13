@@ -16,7 +16,10 @@
     <button type="submit" >Submit</button>
     <a class="button secondaryAction ml-1" href="{{request.META.HTTP_REFERER}}">Cancel</a>
 </form>
-<a class="mt-12 hover:underline text-red-500" href="{%url 'profile-delete'%}">Delete Profile</a>
+<div class="flex justify-between">
+    <a class="mt-12 hover:underline text-red-500" href="{%url 'profile-delete'%}">Delete Profile</a>
+    <a class="mt-12 {% if not account_verified %}text-red-500 {% else %}text-green-600{% endif %}">{% if not account_verified %} Check Email to Verify {% else %} Email Verified {% endif %}</a>
+</div>
 
 
 <script>

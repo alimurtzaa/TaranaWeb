@@ -38,6 +38,7 @@ urlpatterns = [
     path('profile/edit/', profile_edit_view, name='profile-edit'),
     path('profile/delete/', profile_delete_view, name='profile-delete'),
     path('profile/onboarding/', profile_edit_view, name='profile-onboarding'),
+    path('profile/verify-email/', profile_verify_email, name='profile-verify-email'),
     path('commentsent/<id>/', comment_sent, name='comment-sent'),
     path('comment/delete/<id>/', delete_comment_view, name='comment-delete'),
     path('comment/like/<id>/', like_comment, name='like-comment'),

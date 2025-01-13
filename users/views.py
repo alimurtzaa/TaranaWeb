@@ -7,6 +7,7 @@ from django.db.models import Count, Q
 from .forms import ProfileForm
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
+from allauth.account.utils import send_email_confirmation
 
 def profile_view(request, username=None):
     if username:
@@ -40,17 +41,25 @@ def profile_view(request, username=None):
 @login_required
 def profile_edit_view(request):
     form = ProfileForm(instance = request.user.profile)
+    account_verified = False
+    if request.user.emailaddress_set.exists():
+        if request.user.emailaddress_set.get(primary=True).verified:
+            account_verified = True
+    elif not request.user.emailaddress_set.exists(): 
+        account_verified = True
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance = request.user.profile)
         if form.is_valid:
             form.save()
-            return redirect('profile')
+            if request.user.emailaddress_set.get(primary=True).verified:
+                return redirect('profile')
+            else:
+                return redirect('profile-verify-email')
     
     if request.path == reverse('profile-onboarding'):
-        template  = 'users/profile_onboarding.html'
+        return render(request, 'users/profile_onboarding.html', {"form":form})
     else:
-        template = 'users/profile_edit.html'
-    return render(request, template, {"form":form})
+        return render(request, 'users/profile_edit.html', {"form":form, 'account_verified':account_verified})
 
 @login_required
 def profile_delete_view(request):
@@ -81,3 +90,7 @@ def list_search_users(request):
             return HttpResponse('')
     else:
         raise Http404()
+    
+def profile_verify_email(request):
+    send_email_confirmation(request, request.user)
+    return redirect('profile')
