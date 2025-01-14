@@ -113,7 +113,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = False     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
+POSTGRES_LOCALLY = True     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -169,14 +169,15 @@ if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': env('CLOUD_NAME'),
+        'API_KEY': env('CLOUD_API_KEY'),
+        'API_SECRET': env('CLOUD_API_SECRET')
+    }
 else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUD_NAME'),
-    'API_KEY': env('CLOUD_API_KEY'),
-    'API_SECRET': env('CLOUD_API_SECRET')
-}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
