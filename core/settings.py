@@ -113,7 +113,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
+POSTGRES_LOCALLY = False     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
