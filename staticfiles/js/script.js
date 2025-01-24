@@ -1,3 +1,23 @@
+// Toggle Chat Dropdown
+const dropDownchat = document.getElementById("dropDownchat");
+const myChats = document.getElementById("myChats");
+const expandChat = document.getElementById("expandChat");
+
+if (dropDownchat && myChats && expandChat) {
+    dropDownchat.addEventListener("click", () => {
+        myChats.classList.toggle("show");
+        expandChat.classList.toggle("rotate-180");
+    });
+
+    window.addEventListener("click", (e) => {
+        if (!dropDownchat.contains(e.target)) {
+            myChats.classList.remove("show");
+            expandChat.classList.remove("rotate-180");
+        }
+    });
+}
+
+
 // Toggle dropdown
 const dropDownbtn = document.getElementById("dropDownbtn");
 const myDropdown = document.getElementById("myDropdown");
@@ -16,6 +36,8 @@ if (dropDownbtn && myDropdown && expandArrow1) {
         }
     });
 }
+
+
 
 // Toggle hamburger menu
 const hamburger = document.getElementById("hamburger");
@@ -48,7 +70,32 @@ if (sidebarNav && sidebarContent && expandArrow2) {
     });
 }
 
-    
+// leave chat 
+const modal = document.getElementById('modal');
+const openModalButton = document.getElementById('openModal');
+const cancelButton = document.getElementById('cancelButton');
+
+const openModal = () => {
+    modal.classList.remove('hidden'); 
+};
+
+const closeModal = () => {
+    modal.classList.add('hidden'); 
+};
+
+openModalButton.addEventListener('click', openModal);
+
+cancelButton.addEventListener('click', (event) => {
+    event.preventDefault(); 
+    closeModal(); 
+});
+
+modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
 
 
     

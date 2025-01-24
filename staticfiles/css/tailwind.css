@@ -168,6 +168,11 @@ input[name="remember"] {
 .textarea, textarea {
     margin-bottom: 1rem;
 }
+
+input[type=file] {
+    @apply bg-white pl-0
+} 
+
 .textarea, textarea, input {
     border-radius: 0.5rem;
     padding: 1rem 1.2rem;
@@ -197,7 +202,7 @@ input[name="remember"] {
     color: white;
     background-color: var(--black);
 }
-.replyform {
+/* .replyform {
     border-top: none;
 }
 .replyform textarea, .replyform input {
@@ -209,6 +214,16 @@ input[name="remember"] {
 .replyform button {
     margin-left: 0.5rem;
     min-height: unset;
+} */
+
+label {
+    @apply hidden
+}
+label[for="id_remember"] {
+    @apply inline-block w-auto mr-2
+}
+input[name="remember"] {
+    @apply w-auto
 }
 .fade-me-in.htmx-settling{
     opacity: 0;
@@ -248,6 +263,11 @@ form[action="/accounts/signup/"] ul.errorlist {
     @apply mb-4
 }
 
+.button-red{
+    @apply bg-red-600
+}
 
-
+.button-gray{
+    @apply bg-gray-400
+}
 
