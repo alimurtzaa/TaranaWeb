@@ -43,6 +43,9 @@ urlpatterns = [
     path('comment/delete/<id>/', delete_comment_view, name='comment-delete'),
     path('comment/like/<id>/', like_comment, name='like-comment'),
    
+   #other apps
+    path('', include("chat.urls")),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

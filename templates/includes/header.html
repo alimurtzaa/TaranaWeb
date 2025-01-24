@@ -20,6 +20,33 @@
             <li><a href="{% url 'search' %}">Search</a></li>
             <li><a href="{% url 'create-post' %}">Create Tar</a></li>
             <li class="relative">
+                <a id="dropDownchat" class="cursor-pointer select-none">
+                    Inbox
+                    <img id="expandChat" class="w-4" src="https://img.icons8.com/small/64/777777/expand-arrow.png">
+                </a>
+                <div id="myChats" class="absolute right-0 bg-white text-black shadow rounded-lg w-48 p-2 z-20 hidden">
+                    <ul class="hoverlist [&>li>a]:justify-start">
+                        
+                            {% for chatroom in user.chat_groups.all  %}
+                                {% if chatroom.is_private %}
+                                    {% for member in chatroom.members.all %}
+                                        {% if member != request.user %} 
+                                        <li class="relative">
+                                            <div class="graylight-dot absolute top-1 left-1"></div>
+                                            <a class="flex gap-3" href="{% url "chatroom" chatroom.group_name %}">
+                                                <img class="w-8 h-8 rounded-full object-cover" src="{{member.profile.avatar}}" alt="member-image"> 
+                                                <span>{{member.profile.name|capfirst}}</span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                       
+                    </ul>
+                </div>
+            </li>
+            <li class="relative">
                 <a id="dropDownbtn" class="cursor-pointer select-none">
                 <img  class="h-8 w-8 rounded-full bg-teal-200 object-cover" src="{{user.profile.avatar}}" alt="bart-simpson"/>
                 {{user.profile.name}}

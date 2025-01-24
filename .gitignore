@@ -3,5 +3,6 @@ media/
 static/
 node/
 __pycache__/
+migrations/
 .env
 db.sqlite3

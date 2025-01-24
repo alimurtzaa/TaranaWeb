@@ -43,12 +43,14 @@ INTERNAL_IPS = (
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'cloudinary_storage',
     'cloudinary',
     'admin_honeypot',
@@ -59,7 +61,10 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig', # django-cleanup = delete old images from media that are no longer in use
     'posts',
     'users',
+    'chat',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,7 +104,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',   
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
+
 
 
 # Database
@@ -113,9 +120,28 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = False     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
+POSTGRES_LOCALLY = True     #IMPORTANT when want to to run postgres and media server(cloudinary) locally set it to true.
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
+
+
+
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    CHANNEL_LAYERS = {
+            "default": {
+                "BACKEND": "channels_redis.core.RedisChannelLayer",
+                "CONFIG": {
+                    "hosts": [(env('REDIS_URL'))],
+                },
+            },
+    }
+else:
+    CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -203,4 +229,4 @@ else:
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 
-ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'post', 'category', 'search']
+ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'post', 'category', 'search', 'chat', 'onlyauthor']
