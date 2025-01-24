@@ -34,7 +34,17 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "taranaweb.onrender.com",
+    "127.0.0.1",  # For local development
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",  # Local development
+    "http://localhost:8000",  # Localhost
+    "https://taranaweb.onrender.com",  # Production domain
+]
+
 
 INTERNAL_IPS = (
     '127.0.0.1',
