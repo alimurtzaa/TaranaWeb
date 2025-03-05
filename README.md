@@ -10,7 +10,7 @@ Welcome to Tarana, a website where users can create their profiles, chat and sha
 * Search Profiles: Users can search for other profiles and discover new people to connect with.
 * Interact with the Community: Explore the latest tars and connect with people by commenting on their thoughts.
 * One-to-One Chat: Users can have private, one-on-one conversations with other users, ensuring seamless and secure communication. 
-
+* Google OAuth Integration: Users can sign up and log in seamlessly using their Google accounts.
 
 ## Authors
 
