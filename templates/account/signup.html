@@ -39,7 +39,5 @@
             {% trans "Sign up using a passkey" %}
         {% endelement %}
     {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+    {% include "users/social_logins.html" %}
 {% endblock content %}

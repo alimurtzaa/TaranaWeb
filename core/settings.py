@@ -68,11 +68,31 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'django_cleanup.apps.CleanupConfig', # django-cleanup = delete old images from media that are no longer in use
     'posts',
     'users',
     'chat',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+"google": {
+        "APP": 
+            {
+                "client_id": env('OAUTH_GOOGLE_CLIENT_ID'),
+                "secret": env('OAUTH_GOOGLE_SECRET'),  
+            },
+        "SCOPE": [
+            "profile",
+            "email",
+            ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+            'prompt': 'consent',
+            },   
+        },
+}
+
 
 SITE_ID = 1
 
@@ -240,3 +260,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 
 ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'post', 'category', 'search', 'chat', 'onlyauthor']
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_UNIQUE_EMAIL = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'users.adapters.SocialAccountAdapter'

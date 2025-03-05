@@ -49,9 +49,7 @@
             {% endif %}
         {% endelement %}
     {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+    {% include "users/social_logins.html" %}
 {% endblock content %}
 {% block extra_body %}
     {{ block.super }}
